@@ -2,20 +2,24 @@ package eg.edu.alexu.csd.datastructure.iceHockey;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
-public class main implements IPlayersFinder {
+public class findPlayer implements IPlayersFinder {
 	static	List <Point> points = new ArrayList () ;
 	static	HashMap<String,Integer> ticked = new HashMap<>();
 
-	public Point[] findPlayers(String[] photo, int team, int threshold) {
+public Point[] findPlayers(String[] photo, int team, int threshold) {
+		Point[] ans = new Point[1000];
 		int n = 0;
 		int counter = 0;
+		int index =0 ;
 		for (int i = 0; i < photo.length; i++) {
 			for (int j = 0; j < photo[0].length(); j++) {
-				if (photo[i].charAt(j) == (char) team) {
-					n = boxes(photo, i, j, (char) team);
+				if (photo[i].charAt(j) == (char) (team + '0')) {
+					n = boxes(photo, i, j, (char) (team + '0'));
 					if (n != 0 && n * 4 >= threshold) {
 					}
 				}
@@ -31,13 +35,27 @@ public class main implements IPlayersFinder {
 						Point point = new Point() ;
 					point.x=x(arr);
 					point.y=y(arr1);
-
+                  ans[index]=point ;
+                  index++;
 					}
 				}
 				n = 0;
 			}
 		}
-   return points ;
+		Arrays.sort(ans, new Comparator<Point>() {
+			public int compare(Point a, Point b) {
+				if (a == null || b == null) {
+					return 0;
+				}
+				int compare = Integer.compare(a.x, b.x);
+				if (compare == 0)
+					return Integer.compare(a.y, b.y);
+				else
+					return compare;
+			}
+		});
+		System.out.println(ans[1].x);
+   return ans ;
 	}
 
 	static int y(int[] arr) {
