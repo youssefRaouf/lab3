@@ -8,11 +8,11 @@ import java.util.HashMap;
 import java.util.List;
 
 public class findPlayer implements IPlayersFinder {
-	static	List <Point> points = new ArrayList () ;
+	static	List <Point> points1 = new ArrayList () ;
 	static	HashMap<String,Integer> ticked = new HashMap<>();
 
 public Point[] findPlayers(String[] photo, int team, int threshold) {
-		Point[] ans = new Point[1000];
+		Point[] points = new Point[1000];
 		int n = 0;
 		int counter = 0;
 		int index =0 ;
@@ -27,22 +27,22 @@ public Point[] findPlayers(String[] photo, int team, int threshold) {
 					int[] arr = new int[n];
 					int[] arr1 = new int[n];
 					for (int l = 0; l < n; l++) {
-						arr[l] = points.get(counter).x;
-						arr1[l] = points.get(counter).y;
+						arr[l] = points1.get(counter).x;
+						arr1[l] = points1.get(counter).y;
 						counter++;
 					}
 					if (n * 4 >= threshold) {
 						Point point = new Point() ;
 					point.x=x(arr);
 					point.y=y(arr1);
-                  ans[index]=point ;
+                  points[index]=point ;
                   index++;
 					}
 				}
 				n = 0;
 			}
 		}
-		Arrays.sort(ans, new Comparator<Point>() {
+		Arrays.sort(points, new Comparator<Point>() {
 			public int compare(Point a, Point b) {
 				if (a == null || b == null) {
 					return 0;
@@ -55,7 +55,7 @@ public Point[] findPlayers(String[] photo, int team, int threshold) {
 			}
 		});
 		
-   return ans ;
+   return points ;
 	}
 
 	static int y(int[] arr) {
@@ -96,7 +96,7 @@ public Point[] findPlayers(String[] photo, int team, int threshold) {
 			if (!ticked.containsKey(row + "-" + index + "")) {
 
 				Point point = new Point(index * 2, (row + 1) * 2);
-				points.add(point);
+				points1.add(point);
 				ticked.put(row + "-" + index + "", 3);
 				return 1 + boxes(arr, row + 1, index, c) + boxes(arr, row, index + 1, c) + boxes(arr, row - 1, index, c)
 						+ boxes(arr, row, index - 1, c);
