@@ -54,7 +54,7 @@ public Point[] findPlayers(String[] photo, int team, int threshold) {
 					return compare;
 			}
 		});
-		System.out.println(ans[1].x);
+		
    return ans ;
 	}
 
